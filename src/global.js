@@ -6,6 +6,7 @@ var jade = require('jade'),
 	libpath = require('path'),
 	nodemailer = require('nodemailer'),
 	moment = require('moment'),
+	i18n = require('i18n'),
 
 	config = require('../config.json');
 
@@ -73,6 +74,7 @@ function renderPage(template, options)
 	{
 		// global template fields
 		var pageFields = {
+			'template': template,
 			'page': req.url,
 			'query': req.query,
 			'logged_user': req.session && req.session.user ? req.session.user : null,
@@ -103,6 +105,7 @@ function renderPage(template, options)
 		pageFields.__n = res.i18n.__n.bind(res.i18n);
 		pageFields.n__ = res.i18n.n__.bind(res.i18n);
 		pageFields.n__n = res.i18n.n__n.bind(res.i18n);
+		pageFields.a__ = i18n.__.bind(i18n);
 		pageFields.getNativeURL = function(lang){
 			if(lang)
 				return '/'+lang+req.url;
